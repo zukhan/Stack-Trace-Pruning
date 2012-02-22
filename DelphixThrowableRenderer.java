@@ -40,7 +40,11 @@ import java.util.*;
  * allowed keywords can be tailored to fit your needs. Pruning can be disabled by adding a .properties
  * file (e.g. logging.properties) in resources/ and setting the property "stacktrace.pruning.enabled" to false.
  *
- * This class requires log4j version 1.2.16 or newer.
+ * In order to use this class, you'll need to specify the custom throwable renderer in your log4j.xml file. Example:
+ *
+ * 	<throwableRenderer class="com.delphix.appliance.logger.DelphixThrowableRenderer"/>
+ *
+ * This implementation requires log4j version 1.2.16 or newer.
  */
 public class DelphixThrowableRenderer implements ThrowableRenderer {
 
@@ -70,11 +74,16 @@ public class DelphixThrowableRenderer implements ThrowableRenderer {
         LinkedList<String> lines = new LinkedList<String>();
 
         try {
-            String line;
-            boolean printThisLine = false;
+	    /*
+	     * The preserveFrames flag ensures that we don't start pruning until we've seen the first occurence of
+	     * one of the allowed keywords. This allows us to have access to the third party stack frames that lead up
+	     * to our code.
+	     */
             boolean preserveFrames = true;
+            boolean printThisLine = false;
             int framesOmitted = 0;
 
+            String line;
             if (isPruningDisabled()) {
                 while ((line = reader.readLine()) != null)
                     lines.add(line);
