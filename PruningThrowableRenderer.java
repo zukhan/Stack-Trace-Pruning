@@ -35,18 +35,18 @@ import java.io.*;
 import java.util.*;
 
 /**
- * The DelphixThrowableRenderer prunes out extraneous stack frames from the stack traces that are logged. The objective
+ * The PruningThrowableRenderer prunes out extraneous stack frames from the stack traces that are logged. The objective
  * here is to make the logged stack traces terser by only printing the frames that are useful for debugging. The list of
  * allowed keywords can be tailored to fit your needs. Pruning can be disabled by adding a .properties
  * file (e.g. logging.properties) in resources/ and setting the property "stacktrace.pruning.enabled" to false.
  *
  * In order to use this class, you'll need to specify the custom throwable renderer in your log4j.xml file. Example:
  *
- * 	<throwableRenderer class="com.delphix.appliance.logger.DelphixThrowableRenderer"/>
+ * 	<throwableRenderer class="com.delphix.appliance.logger.PruningThrowableRenderer"/>
  *
  * This implementation requires log4j version 1.2.16 or newer.
  */
-public class DelphixThrowableRenderer implements ThrowableRenderer {
+public class PruningThrowableRenderer implements ThrowableRenderer {
 
     private static final String LOGGING_PROPERTIES = "logging";
     private static final String STACKTRACE_PRUNING_DISABLED = "stacktrace.pruning.enabled";
