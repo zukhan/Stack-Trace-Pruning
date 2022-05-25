@@ -85,9 +85,9 @@ public class PruningThrowableRenderer implements ThrowableRenderer {
 
             String line;
             if (isPruningDisabled()) {
-                while ((line = reader.readLine()) != null)
+                while ((line = reader.readLine()) != null) {
                     lines.add(line);
-
+		}
                 return lines.toArray(new String[0]);
             }
 
@@ -113,19 +113,18 @@ public class PruningThrowableRenderer implements ThrowableRenderer {
                 } else {
                     framesOmitted++;
 
-                    if (lines.getLast().contains(ELLIPSES))
+                    if (lines.getLast().contains(ELLIPSES)) {
                         lines.removeLast();
-
+		    }
                     lines.add(String.format("%s %d more", ELLIPSES, framesOmitted));
                 }
             }
         } catch (IOException ex) {
-            if (ex instanceof InterruptedIOException)
+            if (ex instanceof InterruptedIOException) {
                 Thread.currentThread().interrupt();
-
+	    }
             lines.add(ex.toString());
         }
-
         return lines.toArray(new String[0]);
     }
 
